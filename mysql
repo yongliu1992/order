@@ -1,0 +1,19 @@
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` char(32) NOT NULL,
+  `out_trade_no` varchar(45) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_num` int(11) NOT NULL,
+  `item_type` varchar(45) NOT NULL,
+  `fee` float NOT NULL,
+  `pay_fee` float NOT NULL,
+  `order_status` tinyint(1) NOT NULL DEFAULT '0',
+  `pay_time` datetime DEFAULT NULL,
+  `pay_type` varchar(10) DEFAULT NULL,
+  `pay_status` varchar(15) NOT NULL DEFAULT 'wait_pay',
+  `source` varchar(15) NOT NULL,
+  `comm` text,
+  `create_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8
