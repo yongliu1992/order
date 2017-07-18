@@ -7,7 +7,7 @@
  */
 
  abstract class abs_order {
-     abstract function create($order,$pdo);
+     abstract function create($order);
      abstract function detail();
      abstract function delete();
      abstract function find();
@@ -16,7 +16,14 @@
  }
 
  class orders extends  abs_order {
-    function create($order,$pdo){
+        private $pdo;
+     public function __construct()
+     {
+        $this->pdo = db::getInstance();
+     }
+
+     function create($order){
+         $pdo = $this->pdo;
         if($order['user_id']>1000000){
             $sub_uid = substr($order['user_id'],0,6);
         }
@@ -57,5 +64,14 @@
     function change()
     {
         // TODO: Implement change() method.
+    }
+
+    protected function hasOrder($oid){
+
+    }
+
+    protected function pay()
+    {
+
     }
  }

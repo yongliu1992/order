@@ -11,7 +11,6 @@ if(!$_POST){
 }
 include "functions.php";
 include('config.php');
-$pdo = db::getInstance();
 
 $o = new orders();
 
@@ -25,7 +24,7 @@ $discount=0;
 $order['pay_fee']     = $price * $order['item_num'] - $discount;
 $order['source'] ='html';
 $order['comm']='';
-$order = $o->create($order,$pdo);
+$order = $o->create($order);
 if($order){
     //include "wx.php";
     include "ali.php";

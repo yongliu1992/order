@@ -10,13 +10,14 @@ class alipay_api {
     var $error_logfile = null;
     var $partner_id;
     var $key;
+    var $alipay_config=[];
 
-    function alipay_api($partner_id, $key) {
+    function __construct($partner_id, $key) {
         $this -> partner_id = $partner_id;
         $this -> key = $key;
-
+        $this->alipay_config['partner']=$partner_id;
     }
-    //获取微信支付签名字段值
+    //获取支付签名字段值
     function get_pay_data($data) {
         ksort($data);
         $signature_array = array();
@@ -62,6 +63,7 @@ class alipay_api {
     function verify_notify() {
         if (!empty($_POST)) {
             $data = $this -> get_pay_data($_POST);
+
             if ($data['sign'] === $_POST['sign']) {
                 $notify_id = $_POST['notify_id'];
                 if (true === $this -> check_notify_id($notify_id)) {
@@ -92,7 +94,6 @@ class alipay_api {
         //curl_setopt($curl, CURLOPT_CAINFO, $cacert_url);//证书地址
         $response = curl_exec($curl);
         curl_close($curl);
-
         if (preg_match("/true$/i",$response)) {
             return true;
         }
