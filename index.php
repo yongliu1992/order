@@ -26,7 +26,7 @@ $order['source'] ='html';
 $order['comm']='';
 $order = $o->create($order);
 if($order){
-    //include "wx.php";
-    include "ali.php";
+    include "wx.php";
+    //include "ali.php";
 }
 

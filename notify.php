@@ -125,11 +125,12 @@ $post_data = (array) $post_data;
                         $settlement_fee = bcdiv($settlement_fee, '100', 2);
                         $pdo->beginTransaction();
                         if($settlement_fee == $order['pay_fee']){
-                            $sql="UPDATE orders SET order_status=1,pay_status='PAID',pay_type=?,pay_time=NOW() WHERE out_trade_no=? limit 1";
+                            $sql="UPDATE orders SET order_status=1,pay_status='PAID',pay_type=?,pay_confirm_source=?,pay_time=NOW() WHERE out_trade_no=? limit 1";
                             $sth =  $pdo->prepare($sql);
                             $pay_type='weixin';
                             $sth->bindParam(1,$pay_type);
                             $sth->bindParam(2,$order['out_trade_no']);
+                            $sth->bindValue(3,'wx_notify');
                             $sth->execute();
                             $pdo->commit();
                         }else{
