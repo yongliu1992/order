@@ -98,7 +98,7 @@ $wx_api = new wx_api(WX_APPID, WX_SECRET_KEY, WX_PAY_KEY, WX_MCH_ID);
 if ($post_string) {
     $post_data = @simplexml_load_string($post_string, 'SimpleXMLElement', LIBXML_NOCDATA);
 $post_data = (array) $post_data;
-    file_put_contents('wx.log',json_encode($post_data),FILE_APPEND);
+    file_put_contents('logs/wx.log',json_encode($post_data),FILE_APPEND);
 
     if ($post_data) {
         $post_data = (array)$post_data;
