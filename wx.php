@@ -4,7 +4,7 @@
  * 官方文档：
  * http://mp.weixin.qq.com/wiki/17/2d4265491f12608cd170a95559800f2d.html
  */
-error_reporting(7);
+error_reporting(0);
 
 $wx_api = new wx_api(WX_APPID, WX_SECRET_KEY, WX_PAY_KEY, WX_MCH_ID);
 function get_rand($len=8){
@@ -12,9 +12,6 @@ function get_rand($len=8){
     return substr($str,mt_rand(1,10),$len);
 }
 
-if (ENV_TYPE === 'PRODUCTION') {
-    $wx_api ->  error_logfile = ROOT_PATH.'log/wx';
-}
 $appid = $wx_api -> wx_appid;
 $ip =  $ip?$_SERVER['REMOTE_ADDR']:'117.73.146.11';
 $trade_type='NATIVE';

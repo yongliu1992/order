@@ -16,14 +16,14 @@ CREATE TABLE `orders` (
   `comm` text,
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 
-CREATE TABLE `orders_notify_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` varchar(1000) NOT NULL,
-  `pay_type` varchar(20) NOT NULL,
-  `out_no` varchar(45) NOT NULL,
-  `source` varchar(45) DEFAULT NULL COMMENT '鉴别是前台同步跳转还是后台通知',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8
+    CREATE TABLE `orders_notify_log` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `content` varchar(1000) NOT NULL,
+      `pay_type` varchar(20) NOT NULL,
+      `out_no` varchar(45) NOT NULL,
+      `source` varchar(45) DEFAULT NULL COMMENT '鉴别是前台同步跳转还是后台通知',
+      `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
