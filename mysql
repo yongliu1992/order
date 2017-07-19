@@ -15,6 +15,7 @@ CREATE TABLE `orders` (
   `source` varchar(15) NOT NULL,
   `comm` text,
   `create_time` datetime NOT NULL,
+  `pay_confirm_source` varchar(30) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 

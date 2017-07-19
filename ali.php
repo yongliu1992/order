@@ -26,7 +26,12 @@ $pay_url = $alipay_api -> pay_url(array(
     'exter_invoke_ip'	=> get_ip(),
     'qr_pay_mode'=>1
 ));
-echo '<a href=\''.$pay_url.'\'>支付</a>';
+if($_POST){
+    header("Location:$pay_url");
+}else{
+    header("Location:index.php");
+}
+
 
 
 
