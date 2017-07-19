@@ -91,14 +91,14 @@ $post_string = trim(file_get_contents("php://input"));
 // <transaction_id><![CDATA[4004592001201603264282730088]]></transaction_id>
 // </xml>';
 
-include ("pdo.php");
+include('functions.php');
 require ("config.php");
-
+$pdo = db::getInstance();
 $wx_api = new wx_api(WX_APPID, WX_SECRET_KEY, WX_PAY_KEY, WX_MCH_ID);
 if ($post_string) {
     $post_data = @simplexml_load_string($post_string, 'SimpleXMLElement', LIBXML_NOCDATA);
 $post_data = (array) $post_data;
-    file_put_contents('logs/wx.log',json_encode($post_data),FILE_APPEND);
+    //file_put_contents('logs/wx.log',json_encode($post_data),FILE_APPEND);
 
     if ($post_data) {
         $post_data = (array)$post_data;
@@ -106,15 +106,14 @@ $post_data = (array) $post_data;
         $sign = $wx_api -> get_pay_signature($post_data);
         if ($sign === $post_data['sign']) {
             //业务处理 日志,记录微信的会掉
-
             if ($post_data['result_code'] == 'SUCCESS') {
-
                 $sql = 'select * from orders where out_trade_no=? limit 1';
                 $sth = $pdo->prepare($sql);
                // $p = '20170714235353888769774';
                 $sth->bindParam(1,$post_data['out_trade_no']);
                 $sth->execute();
                 $order = $sth->fetch(PDO::FETCH_ASSOC);
+
                 if ($order) {
 
                     if (
@@ -125,12 +124,14 @@ $post_data = (array) $post_data;
                         $settlement_fee = bcdiv($settlement_fee, '100', 2);
                         $pdo->beginTransaction();
                         if($settlement_fee == $order['pay_fee']){
+
                             $sql="UPDATE orders SET order_status=1,pay_status='PAID',pay_type=?,pay_confirm_source=?,pay_time=NOW() WHERE out_trade_no=? limit 1";
                             $sth =  $pdo->prepare($sql);
                             $pay_type='weixin';
                             $sth->bindParam(1,$pay_type);
-                            $sth->bindParam(2,$order['out_trade_no']);
-                            $sth->bindValue(3,'wx_notify');
+                            $pay_confirm_source = 'wx_notify';
+                            $sth->bindParam(2,$pay_confirm_source);
+                            $sth->bindParam(3,$order['out_trade_no']);
                             $sth->execute();
                             $pdo->commit();
                         }else{
