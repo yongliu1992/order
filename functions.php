@@ -21,7 +21,6 @@ function query_string_encode($data) {
 
 
 function get_ip() {
-    return '106.37.114.244';
     if($_SERVER['HTTP_X_FORWARDED_FOR']) {
         if(preg_match_all("#[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}#s", $_SERVER['HTTP_X_FORWARDED_FOR'], $addresses)) {
             while (list($key, $val) = each($addresses[0])) {

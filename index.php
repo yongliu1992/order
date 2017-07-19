@@ -26,7 +26,10 @@ $order['source'] ='html';
 $order['comm']='';
 $order = $o->create($order);
 if($order){
-    include "wx.php";
-    //include "ali.php";
+    if($_POST['pay_type']==1){
+        include "wx.php";
+    }else{
+        include "ali.php";
+    }
 }
 
