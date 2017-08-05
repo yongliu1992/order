@@ -1,15 +1,25 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: kok
+ * Date: 2017/8/6
+ * Time: 00:07
+ */
+
+?>
 <script type="text/javascript">
+
     //调用微信JS api 支付
     function jsApiCall()
     {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
-        <?php echo $jsApiParameters; ?>,
-        function(res){
-            WeixinJSBridge.log(res.err_msg);
-            alert(res.err_code+res.err_desc+res.err_msg);
-        }
-    );
+            <?php echo $jsApiParameters; ?>,
+            function(res){
+                WeixinJSBridge.log(res.err_msg);
+                alert(res.err_code+res.err_desc+res.err_msg);
+            }
+        );
     }
 
     function callpay()
@@ -25,5 +35,6 @@
             jsApiCall();
         }
     }
+
     callpay();
 </script>

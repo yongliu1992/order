@@ -68,11 +68,11 @@ switch ($trade_type) {
             'openid'=>$openid
         );
         $data = $wx_api -> get_pay_data($pay_data);
-        $result = $wx_api -> api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml','post');
-//$result['prepay_id']='wx20170804095608e5aa400ebb0643082083';
+     //   $result = $wx_api -> api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml','post');
+$result['prepay_id']='wx20170804095608e5aa400ebb0643082083';
+
 $jsApiParameters = json_encode($wx_api->get_js_pay_data($result['prepay_id']));
-require ("jswechat.html");
-?>
+require("jsWePay.php");
 
         break;
 
