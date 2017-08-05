@@ -9,6 +9,7 @@ if(!$_POST){
     include('index.html');
     exit;
 }
+
 include "functions.php";
 include('config.php');
 

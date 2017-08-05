@@ -40,3 +40,19 @@ function get_ip() {
     }
     return $ip;
 }
+
+function get_request_scheme() {
+    $request_scheme = $_SERVER['REQUEST_SCHEME'];
+    if (!$request_scheme) {
+        $request_scheme = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+    }
+    if (!$request_scheme) {
+        $request_scheme = 'http';
+    }
+
+    return $request_scheme;
+}
+function get_host() {
+    $host = $_SERVER["HTTP_X_FORWARDED_HOST"] ? $_SERVER["HTTP_X_FORWARDED_HOST"] : $_SERVER['HTTP_HOST'];
+    return $host;
+}

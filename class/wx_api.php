@@ -271,6 +271,7 @@ class wx_api {
             return 'om9ecjn7LvXFesi2zbUGLURSXr54';
         }
 
+
         if (!$redirect_url) {
             $redirect_url = $this -> get_current_url();
         }

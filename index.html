@@ -6,18 +6,42 @@
 </head>
 <body>
 <form method="post" action="">
-            <h1>我的购物车</h1>
+    <h1>我的购物车</h1>
     商品名称: <input type="text" name="item_name"><br/>
     商品类型: <input type="text" name="item_type"><br/>
     商品单价: <input type="text" name="item_price"><br/>
     商品数量: <input type="text" name="item_num"><br/>
     支付方式: <select name="pay_type">
-    <option value ="1">微信</option>
-    <option value ="2">支付宝</option>
-    </select>
+    <option value="1">微信</option>
+    <option value="2">支付宝</option>
+</select>
     <br/>
+    <input type="hidden" name="browser_type" value="">
     <input type="submit" value="提交订单">
 </form>
+<script>
+    var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
 
+    var IsWeixin = /MicroMessenger/i.test(sUserAgent);
+    var browser_type='';
+    if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) ){
+        browser_type = 'web';
+    }else if(IsWeixin){
+        browser_type = 'mobile_we_chat';
+    }else{
+        browser_type = 'mobile'
+    }
+
+        document.getElementById("browser_type").value = browser_type;
+
+</script>
 </body>
 </html>
