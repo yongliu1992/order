@@ -577,16 +577,13 @@ class wx_api {
     function get_js_pay_data($prepay_id) {
         $data = array(
             'appId' => $this -> wx_appid,
-            'timeStamp' => time(),
+            'timeStamp' =>(string) time(),
             'nonceStr' => get_rand(8),
             'package' => 'prepay_id='.$prepay_id,
             'signType' => 'MD5',
         );
 
         $data['paySign'] = $this -> get_pay_signature($data);
-        $data['timestamp'] = $data['timeStamp'];
-        unset($data['timeStamp']);
-        unset($data['appId']);
         return $data;
     }
 
