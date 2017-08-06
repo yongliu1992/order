@@ -14,7 +14,7 @@ class db {
         $u    = DB_USER;
         $p    = DB_PASSWORD;
         $dbms = 'mysql';
-        $dsn  = $dbms.":host=localhost;dbname=".DB;
+        $dsn  = $dbms.":host=".DB_HOST.";dbname=".DB;
         $options = array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             PDO::ATTR_PERSISTENT => true
