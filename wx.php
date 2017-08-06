@@ -51,7 +51,9 @@ switch ($trade_type) {
         break;
     case 'JSAPI':
         //先拿到code  然后拿到openid 然后统一下单 得到处理id 输出js
+
        $openid = $wx_api->get_openid();
+
 
         $order['content'] = $_POST['item_name']?:'书籍购买';
         $order['pay_fee']=100;
@@ -66,11 +68,9 @@ switch ($trade_type) {
             'openid'=>$openid
         );
         $data = $wx_api -> get_pay_data($pay_data);
-//	var_dump($data);exit;
+
         $result = $wx_api -> api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml','post');
-$jsApiParameters = json_encode($wx_api->get_js_pay_data($result['prepay_id']));
-//echo $jsApiParameters;
-//require("jsWePay.php");
+
 
         break;
 
