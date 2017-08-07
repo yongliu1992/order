@@ -30,6 +30,7 @@ switch ($trade_type) {
             'trade_type' => $trade_type,
         );
         $data = $wx_api->get_pay_data($pay_data);
+        //redirct 重定到新的 url 应该用进行js定时任务 每秒查询订单，得到支付状态 这部分代码这里没写 需要自己完善
         $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
 
         include('qrcode/qrcode.php');
@@ -69,6 +70,7 @@ switch ($trade_type) {
         );
         $data = $wx_api->get_pay_data($pay_data);
 
+
         $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
 
 
@@ -85,7 +87,7 @@ switch ($trade_type) {
         );
         $data = $wx_api->get_pay_data($pay_data);
         $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
-//redirct 重定到新的 url 应该用进行js定时任务 每秒查询订单，得到支付状态 这部分代码这里没写 需要自己完善
+
         $mweb_url = $result['mweb_url'] . '&redirect_url=' . urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER["REQUEST_URI"] . '?oo=' . $order['out_trade_no']);
 
         break;
