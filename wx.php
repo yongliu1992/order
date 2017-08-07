@@ -22,17 +22,17 @@ switch ($trade_type) {
 
         $order['content'] = $_POST['item_name'];
         $pay_data = array(
-            'body' => $order['content'] ? $order['content'] : date('Y-m-d H:i:s').'订单支付', //商品描述
+            'body' => $order['content'] ? $order['content'] : date('Y-m-d H:i:s') . '订单支付', //商品描述
             'out_trade_no' => $order['out_trade_no'], //商户订单号，32 个字符内
             'total_fee' => bcmul($order['pay_fee'], 100, 0), //订单总金额,单位为分
             'spbill_create_ip' => $ip,
             'notify_url' => WX_PAY_NOTIFY_URL,
             'trade_type' => $trade_type,
         );
-        $data = $wx_api -> get_pay_data($pay_data);
-        $result = $wx_api -> api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml','post');
+        $data = $wx_api->get_pay_data($pay_data);
+        $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
 
-        include ('qrcode/qrcode.php');
+        include('qrcode/qrcode.php');
         header("Content-type: image/png");
         if (!$padding) {
             $padding = 0;
@@ -43,34 +43,50 @@ switch ($trade_type) {
         $size -= $padding * 2;
         $qrCode = new QrCode();
         $qrCode
-            -> setText($result['code_url'])
-            -> setSize($size)
-            -> setErrorCorrection('medium')
-            -> setPadding($padding)
-            -> render();
+            ->setText($result['code_url'])
+            ->setSize($size)
+            ->setErrorCorrection('medium')
+            ->setPadding($padding)
+            ->render();
         break;
     case 'JSAPI':
         //先拿到code  然后拿到openid 然后统一下单 得到处理id 输出js
 
-       $openid = $wx_api->get_openid();
+        $openid = $wx_api->get_openid();
 
 
-        $order['content'] = $_POST['item_name']?:'书籍购买';
-        $order['pay_fee']=100;
+        $order['content'] = $_POST['item_name'] ?: '书籍购买';
+        $order['pay_fee'] = 100;
 
         $pay_data = array(
-            'body' => $order['content'] ? $order['content'] : date('Y-m-d H:i:s').'订单支付', //商品描述
-            'out_trade_no' => $order['out_trade_no']?:$oid, //商户订单号，32 个字符内
+            'body' => $order['content'] ? $order['content'] : date('Y-m-d H:i:s') . '订单支付', //商品描述
+            'out_trade_no' => $order['out_trade_no'] ?: $oid, //商户订单号，32 个字符内
             'total_fee' => bcmul($order['pay_fee'], 100, 0), //订单总金额,单位为分
             'spbill_create_ip' => $ip,
             'notify_url' => WX_PAY_NOTIFY_URL,
             'trade_type' => $trade_type,
-            'openid'=>$openid
+            'openid' => $openid
         );
-        $data = $wx_api -> get_pay_data($pay_data);
+        $data = $wx_api->get_pay_data($pay_data);
 
-        $result = $wx_api -> api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml','post');
+        $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
 
+
+        break;
+
+    case 'MWEB':
+        $pay_data = array(
+            'body' => $order['content'] ? $order['content'] : date('Y-m-d H:i:s') . '订单支付', //商品描述
+            'out_trade_no' => $order['out_trade_no'], //商户订单号，32 个字符内
+            'total_fee' => bcmul($order['pay_fee'], 100, 0), //订单总金额,单位为分
+            'spbill_create_ip' => $ip,
+            'notify_url' => WX_PAY_NOTIFY_URL,
+            'trade_type' => $trade_type,
+        );
+        $data = $wx_api->get_pay_data($pay_data);
+        $result = $wx_api->api('https://api.mch.weixin.qq.com/pay/unifiedorder', $data, false, 'xml', 'post');
+//redirct 重定到新的 url 应该用进行js定时任务 每秒查询订单，得到支付状态 这部分代码这里没写 需要自己完善
+        $mweb_url = $result['mweb_url'] . '&redirect_url=' . urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER["REQUEST_URI"] . '?oo=' . $order['out_trade_no']);
 
         break;
 
